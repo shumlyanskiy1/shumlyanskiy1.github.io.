@@ -1,29 +1,23 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate
+} from "react-router-dom";
 
 const Index = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     if (username === "admin" && password === "password") {
-      toast({
-        title: "Успешный вход",
-        description: "Добро пожаловать в систему!",
-      });
+      alert("Успешный вход. Добро пожаловать!");
       navigate("/dashboard");
     } else {
-      toast({
-        variant: "destructive",
-        title: "Ошибка",
-        description: "Неверный логин или пароль",
-      });
+      alert("Ошибка: Неверный логин или пароль");
     }
   };
 
@@ -32,44 +26,64 @@ const Index = () => {
       <div className="w-full max-w-md space-y-8 p-8 bg-white rounded-xl shadow-lg border border-[#E5E7EB]">
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-8">
-            <span className="text-[#9b87f5]">Y</span>
-            <span className="text-[#D946EF]">o</span>
-            <span className="text-[#F97316]">u</span>
-            <span className="text-[#0EA5E9]">r</span>
-            <span className="text-[#8B5CF6]"> B</span>
-            <span className="text-[#7E69AB]">O</span>
-            <span className="text-[#6E59A5]">X</span>
+            <span style={{ color: "#9b87f5" }}>Y</span>
+            <span style={{ color: "#D946EF" }}>o</span>
+            <span style={{ color: "#F97316" }}>u</span>
+            <span style={{ color: "#0EA5E9" }}>r</span>
+            <span style={{ color: "#8B5CF6" }}> B</span>
+            <span style={{ color: "#7E69AB" }}>O</span>
+            <span style={{ color: "#6E59A5" }}>X</span>
           </h1>
         </div>
-        
+
         <form onSubmit={handleLogin} className="space-y-6">
           <div>
-            <Input
+            <input
               type="text"
               placeholder="Логин"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="border-gray-200 bg-white text-gray-900 placeholder:text-gray-500"
+              className="w-full p-2 border border-gray-200 rounded bg-white text-gray-900 placeholder-gray-500"
             />
           </div>
-          
+
           <div>
-            <Input
+            <input
               type="password"
               placeholder="Пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="border-gray-200 bg-white text-gray-900 placeholder:text-gray-500"
+              className="w-full p-2 border border-gray-200 rounded bg-white text-gray-900 placeholder-gray-500"
             />
           </div>
 
-          <Button type="submit" className="w-full bg-gray-900 hover:bg-gray-800 text-white">
+          <button
+            type="submit"
+            className="w-full py-2 bg-gray-900 text-white rounded hover:bg-gray-800"
+          >
             Войти
-          </Button>
+          </button>
         </form>
       </div>
     </div>
   );
 };
 
-export default Index;
+const Dashboard = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <h1 className="text-4xl">Добро пожаловать в панель управления!</h1>
+  </div>
+);
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
